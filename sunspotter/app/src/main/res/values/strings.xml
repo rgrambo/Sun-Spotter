@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">sunspotter</string>
     <string name="invalid_zip">Req: 5 digit ZipCode</string>
+    <string name="no_sunshine">No Sunshine! :(</string>
+    <string name="no_sunshine_lower">There is no sun in the near future.</string>
+    <string name="yes_sunshine">YAY! SUNSHINE! :)</string>
+    <string name="yes_sunshine_lower">It will be sunny on %1$s</string>
 </resources>

@@ -26,19 +26,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.uw.rgrambo.sunspotter.R.*;
+
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
     }
 
     public void onTheButtonClick(View view) {
         // Read the user's input.
-        String input = ((EditText)findViewById(R.id.textInput)).getText().toString();
+        String input = ((EditText)findViewById(id.textInput)).getText().toString();
 
         // Grab the error text reference.
-        TextView errorText = ((TextView)findViewById(R.id.textInputError));
+        TextView errorText = ((TextView)findViewById(id.textInputError));
 
         // Use regular expressions to check that the input is a Zipcode
         // and set the error text. Execute if it's a valid Zipcode.
@@ -46,13 +48,13 @@ public class MainActivity extends Activity {
             errorText.setText("");
             new Request(this).execute(input);
         } else {
-            errorText.setText(R.string.invalid_zip);
+            errorText.setText(string.invalid_zip);
         }
     }
 
     public void PostExecute(ForecastData forecastData) {
         // Grab reference to the ListView
-        ListView listView = (ListView)findViewById(R.id.listView);
+        ListView listView = (ListView)findViewById(id.listView);
 
         // Create the ListView's adapter
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this,
@@ -62,18 +64,18 @@ public class MainActivity extends Activity {
         listView.setAdapter(arrayAdapter);
 
         // Grab references to the main text areas and image
-        ImageView imageView = (ImageView)findViewById(R.id.mainImage);
-        TextView upperMainText = (TextView)findViewById(R.id.upperMainText);
-        TextView lowerMainText = (TextView)findViewById(R.id.lowerMainText);
+        ImageView imageView = (ImageView)findViewById(id.mainImage);
+        TextView upperMainText = (TextView)findViewById(id.upperMainText);
+        TextView lowerMainText = (TextView)findViewById(id.lowerMainText);
 
         if (forecastData.firstSunnyDay == null) {
-            imageView.setImageResource(R.drawable.sunsad);
-            upperMainText.setText("No Sunshine! :(");
-            lowerMainText.setText("There's no sun in the near future.");
+            imageView.setImageResource(drawable.sunsad);
+            upperMainText.setText(string.no_sunshine);
+            lowerMainText.setText(string.no_sunshine_lower);
         } else {
-            imageView.setImageResource(R.drawable.sunhappy);
-            upperMainText.setText("YAY! SUNSHINE! :)");
-            lowerMainText.setText("It will be sunny on " + forecastData.firstSunnyDay);
+            imageView.setImageResource(drawable.sunhappy);
+            upperMainText.setText(string.yes_sunshine);
+            lowerMainText.setText(getString(string.yes_sunshine_lower, forecastData.firstSunnyDay));
         }
     }
 
@@ -110,6 +112,9 @@ public class MainActivity extends Activity {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+            if (url == null) {
+                return null;
+            }
 
             String result = null;
             try {
@@ -117,16 +122,19 @@ public class MainActivity extends Activity {
 
                 BufferedReader reader = new BufferedReader(
                         new InputStreamReader(connection.getInputStream()));
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder builder = new StringBuilder();
 
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
+                    builder.append(line);
                 }
 
-                result = buffer.toString();
+                result = builder.toString();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+            if (result == null) {
+                return null;
             }
 
             // Read the JSON and get the list element
@@ -137,6 +145,9 @@ public class MainActivity extends Activity {
                 list = obj.getJSONArray("list");
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+            if (list == null) {
+                return null;
             }
 
             forecastData = new ForecastData();
