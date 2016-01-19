@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">sunspotter</string>
+    <string name="invalid_zip">Req: 5 digit ZipCode</string>
+</resources>
