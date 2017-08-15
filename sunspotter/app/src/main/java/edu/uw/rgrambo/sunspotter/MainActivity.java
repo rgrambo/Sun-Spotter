@@ -82,11 +82,11 @@ public class MainActivity extends Activity {
     // Async class used to make requests to the openweathermap url.
     private class Request extends AsyncTask<String, Void, Void>
     {
-        public ForecastData forecastData;
-        public MainActivity activity;
+        ForecastData forecastData;
+        MainActivity activity;
 
         // Take an activity in order to call its PostExecute method
-        public Request(MainActivity activity) {
+        Request(MainActivity activity) {
             this.activity = activity;
         }
 
@@ -187,15 +187,15 @@ public class MainActivity extends Activity {
         }
     }
 
-    public class ForecastData {
-        public String firstSunnyDay = null;
-        public final List<String> list;
+    private class ForecastData {
+        String firstSunnyDay = null;
+        final List<String> list;
 
         private ForecastData() {
             this.list = new ArrayList<String>();
         }
 
-        public void AddToList(String date, boolean sun, double temp) {
+        void AddToList(String date, boolean sun, double temp) {
             String sunString = "No Sun";
             if (sun) {
                 if (firstSunnyDay == null) {
