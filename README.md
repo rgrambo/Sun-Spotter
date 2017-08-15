@@ -10,4 +10,5 @@ The purpose of the application was to practice making async requests with androi
 Ross Grambo
 
 ### Credit
-This was an assignment given from the University of Washington
+This was an assignment from the University of Washington.
+Assignment created by Joel Ross (https://github.com/joelwross)
